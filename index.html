@@ -250,8 +250,9 @@
       </p>
       <p class="lead" style="margin-top:12px">
         Escolher é simples: preencha seus dados, monte um carrinho com quantos itens quiser e confirme.
-        Assim que você confirmar, os itens saem da lista para ninguém repetir presente. Desde já, obrigado.
-        Amamos vocês.
+      </p>
+      <p class="lead" style="margin-top:12px">
+        Desde já, obrigado. Amamos vocês.
       </p>
       <div class="note" style="margin-top:18px">
         Os itens marcados com <span class="star">★</span> estão disponíveis na loja online da família no Mercado
@@ -453,9 +454,9 @@ const CATS = [
   ["org","Organização & Ferramentas"],
   ["quarto","Quarto & Banho"],
 ];
-let _id=0; const g=(n,c,s=false)=>({id:++_id,n,c,s});
+let _id=0; const g=(n,c,s=false,h=false)=>({id:++_id,n,c,s,h});
 const CATALOG=[
-  g("Jogo de panela (antiaderente)","prep",true),
+  g("Jogo de panela (antiaderente)","prep",true,true),
   g("Frigideira antiaderente","prep",true),
   g("Panela de pipoca","prep"),
   g("Panela de pressão","prep"),
@@ -498,7 +499,7 @@ const CATALOG=[
   g("Cortador e ralador de legumes","uten",true),
   g("Formas de gelo de silicone","uten",true),
 
-  g("Kit porta mantimentos de vidro com tampa de bambu","vidro",true),
+  g("Potes herméticos de vidro tampa inox","vidro",true),
   g("Kit potes herméticos de plástico/acrílico para mantimentos","vidro",true),
   g("Kit potes de vidro com tampa (retangular)","vidro",true),
   g("Kit potes de plástico com tampa (Electrolux)","vidro"),
@@ -535,8 +536,8 @@ const CATALOG=[
 
   g("Varal de chão","limpeza",true),
   g("Prendedores de roupa","limpeza"),
-  g("Cesto de roupa suja","limpeza",true),
-  g("Cesto de roupa limpa","limpeza",true),
+  g("Cesto de roupa suja - de bambu","limpeza",true),
+  g("Cesto de roupa limpa - de bambu","limpeza",true),
   g("Ferro de passar","limpeza"),
   g("Balde","limpeza"),
   g("Vassoura","limpeza"),
@@ -555,7 +556,7 @@ const CATALOG=[
 
   g("Organizador de talheres para gaveta (bambu)","org"),
   g("Caixas organizadoras com tampa (grande)","org"),
-  g("Cestos organizadores (pequeno/médio)","org"),
+  g("Cestos organizadores (pequeno/médio) - tamanhos variados","org"),
   g("Kit de ferramentas","org",true),
 
   g("Jogo de banho (4 ou 5 peças, de preferência liso)","quarto"),
@@ -568,8 +569,48 @@ const CATALOG=[
   g("Protetor de travesseiros","quarto"),
   g("Manta/cobertor","quarto"),
   g("Cabides","quarto",true),
+
+  /* itens acrescentados depois (entram no fim para manter os ids dos demais) */
+  g("Tigela de inox","uten"),
+  g("Aspirador de pó","eletro"),
 ];
 const byId = id => CATALOG.find(x=>x.id===id);
+
+/* ---------- links da loja (Mercado Livre) por produto ----------
+   Para trocar um link no futuro, edite a URL ao lado do nome do produto.
+   Todo item que tem link aqui mostra automaticamente o selo de loja online. */
+const LINKS = {
+  "Jogo de talheres 24 peças (de preferência sem cabo)": "https://www.mercadolivre.com.br/conjunto-faqueiro-24-pecas-inox-fratelli-prime-caixa-prateado/p/MLB72727736?pdp_filters=seller_id%3A3159874972",
+  "Cesto de roupa suja - de bambu": "https://www.mercadolivre.com.br/cesto-bambu-70l-com-tampa-alca-organizaco-casa-banheiro-roupa/p/MLB69729187?pdp_filters=seller_id%3A3159874972",
+  "Cesto de roupa limpa - de bambu": "https://www.mercadolivre.com.br/cesto-bambu-70l-com-tampa-alca-organizaco-casa-banheiro-roupa/p/MLB69729187?pdp_filters=seller_id%3A3159874972",
+  "Peneira (inox)": "https://www.mercadolivre.com.br/peneira-de-inox-20cm-com-cabo-utensilio-de-cozinha/p/MLB2084013811?pdp_filters=seller_id%3A3159874972",
+  "Tigela de inox": "https://www.mercadolivre.com.br/tigela-inox-bowl-18cm-multiuso-profissional-prateado/up/MLBU4047217068?pdp_filters=seller_id%3A3159874972",
+  "Esteira escorredora de louça": "https://www.mercadolivre.com.br/tapete-escorredor-pia-silicone-40cm-antiderrapante-secador/up/MLBU4047150822?pdp_filters=seller_id%3A3159874972",
+  "Jarra de vidro": "https://www.mercadolivre.com.br/jarra-vidro-tampa-1-litro-transparente-suco-agua-servir-mesa/up/MLBU4047179786?pdp_filters=seller_id%3A3159874972",
+  "Kit potes herméticos de plástico/acrílico para mantimentos": "https://www.mercadolivre.com.br/kit-7-potes-hermetico-tampa-multiuso-organizar-cozinha/up/MLBU3770620187?pdp_filters=seller_id%3A3159874972",
+  "Escova giratória": "https://www.mercadolivre.com.br/escova-eletrica-giratoria-recarregavel-usb-limpeza-multiuso/up/MLBU3848640752?pdp_filters=seller_id%3A3159874972",
+  "Potes herméticos de vidro tampa inox": "https://www.mercadolivre.com.br/kit-3-potes-de-vidro-hermetico-tampa-inox-cozinha-premium/up/MLBU3923186029?pdp_filters=seller_id%3A3159874972",
+  "Cestos organizadores (pequeno/médio) - tamanhos variados": "https://www.mercadolivre.com.br/kit-3-cestos-organizadores-bambu-sustentavel-premium-natural/up/MLBU4042381017?pdp_filters=seller_id%3A3159874972",
+  "Kit potes de vidro com tampa (retangular)": "https://www.mercadolivre.com.br/kit-6-pote-vidro-hermetico-retangular-640ml-marmita-c-tampa/up/MLBU3817207156?pdp_filters=seller_id%3A3159874972",
+  "Jogo de taças de vidro": "https://www.mercadolivre.com.br/kit-6-tacas-de-vidro-350ml-elegantes-para-drinks-suco-vinho/up/MLBU3954732116?pdp_filters=seller_id%3A3159874972",
+  "Lixeira": "https://www.mercadolivre.com.br/lixeira-inox-12l-redonda-slim-com-pedal-tampa-suave/up/MLBU3796773749?pdp_filters=seller_id%3A3159874972",
+  "Kit de ferramentas": "https://www.mercadolivre.com.br/kit-jogo-ferramentas-profissional-200-pecas-com-maleta/up/MLBU3893374050?pdp_filters=seller_id%3A3159874972",
+  "Aspirador de pó": "https://www.mercadolivre.com.br/aspirador-de-po-eletrico-vertical-portatil-2-em-1-c-fio-600w/up/MLBU3893483300?pdp_filters=seller_id%3A3159874972",
+  "Mixer": "https://www.mercadolivre.com.br/mixer-eletrico-200w-127v-lamina-inox--copo-700ml-portatil/up/MLBU3797311456?pdp_filters=seller_id%3A3159874972",
+  "Mop": "https://www.mercadolivre.com.br/mop-esponja-pro-de-limpeza-powermaid/p/MLB35934035?pdp_filters=seller_id%3A3159874972",
+  "Varal de chão": "https://www.mercadolivre.com.br/varal-de-cho-3-andares-com-cabideiro-e-bandejas-dobravel-azul-multifuncional-grande-capacidade/p/MLB61642039?pdp_filters=seller_id%3A3159874972",
+  "Escorredor de louça": "https://www.mercadolivre.com.br/escorredor-de-louca-aco-cromado-2-andares-porta-copos-branco/up/MLBU4033195041?pdp_filters=seller_id%3A3159874972",
+  "Caixas organizadoras com tampa (grande)": "https://www.mercadolivre.com.br/caixa-organizadora-plastica-cesto-multiuso-20-litros/up/MLBU4047121550?pdp_filters=seller_id%3A3159874972",
+  "Fruteira (de preferência na cor preta)": "https://www.mercadolivre.com.br/fruteira-2-e-3-andares-preta-metal-multiuso-cozinha-pratica/up/MLBU3880071843?pdp_filters=seller_id%3A3159874972",
+  "Kit churrasco": "https://www.mercadolivre.com.br/kit-churrasco-3-pcs-faca-garfo-chaira-aco-inox-profissional/up/MLBU4033224489?pdp_filters=seller_id%3A3159874972",
+  "Escova sanitária": "https://www.mercadolivre.com.br/escova-sanitaria-unicasa-com-suporte-inox-duravel/up/MLBU4047177804?pdp_filters=seller_id%3A3159874972",
+  "Frigideira antiaderente": "https://www.mercadolivre.com.br/frigideira-aluminio-antiaderente-inducao-gas-eletrico-22cm/up/MLBU4033202209?pdp_filters=seller_id%3A3159874972",
+  "Jogo de copos de vidro": "https://www.mercadolivre.com.br/kit-6-copos-vidro-280ml-suco-agua-drinks-whisky-transparente/up/MLBU4047127080?pdp_filters=seller_id%3A3159874972",
+  "Ferro de passar": "https://www.mercadolivre.com.br/ferro-de-passar-roupa-a-seco-1000w-base-ceramica-roupas/up/MLBU4047111876?pdp_filters=seller_id%3A3159874972",
+  "Garrafa térmica de café (de preferência na cor preta)": "https://www.mercadolivre.com.br/garrafa-termica-cafe-cha-leite-1-litro-sortido-cabo-madeira/up/MLBU3824426845?pdp_filters=seller_id%3A3159874972",
+  "Cabides": "https://www.mercadolivre.com.br/kit-12-cabides-madeira-verniz-reforcado-premium-calca-camisa/up/MLBU3968483102?pdp_filters=seller_id%3A3159874972"
+};
+CATALOG.forEach(x=>{ if(LINKS[x.n]){ x.link=LINKS[x.n]; x.s=true; } });
 
 /* ---------- estado ---------- */
 let state = { donor:{}, cart:new Set(), activeCat:"all", pix:false };
@@ -641,14 +682,14 @@ function renderCatalog(){
   const cats = state.activeCat==="all" ? CATS : CATS.filter(c=>c[0]===state.activeCat);
   let html="";
   cats.forEach(([k,label])=>{
-    const items=CATALOG.filter(x=>x.c===k && (!term || x.n.toLowerCase().includes(term)));
+    const items=CATALOG.filter(x=>x.c===k && !x.h && (!term || x.n.toLowerCase().includes(term)));
     if(!items.length) return;
     html+=`<div class="catblock"><h3>${label}</h3><div class="grid">`;
     items.forEach(x=>{
       const isTaken=taken.has(x.id);
       const inCart=state.cart.has(x.id);
       const starHtml = x.s ? `<span class="star">★ loja online</span>` : "";
-      const loja = x.s ? `<a class="lojabtn" href="${STORE_URL}" target="_blank" rel="noopener">Ver na loja</a>` : "";
+      const loja = x.s ? `<a class="lojabtn" href="${x.link || STORE_URL}" target="_blank" rel="noopener">Ver na loja</a>` : "";
       html+=`<div class="gift ${isTaken?'taken':''}">
         <div class="name">${x.n}</div>
         <div class="meta">${starHtml}</div>
@@ -845,7 +886,7 @@ async function loadAdmin(){
   adminRows = data || [];
   const totalItems = new Set(adminRows.flatMap(r=>r.itens||[])).size;
   document.getElementById("adminSummary").textContent=
-    `${adminRows.length} pessoa(s) · ${totalItems} presente(s) escolhido(s) · ${CATALOG.length-totalItems} disponível(is)`;
+    `${adminRows.length} pessoa(s) · ${totalItems} presente(s) escolhido(s) · ${CATALOG.filter(x=>!x.h).length-totalItems} disponível(is)`;
   const t=document.getElementById("adminTable");
   if(!adminRows.length){ t.innerHTML=`<div class="empty">Ninguém escolheu presentes ainda.</div>`; return; }
   let rows=adminRows.map(r=>{
